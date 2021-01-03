@@ -1,0 +1,65 @@
+body {
+	background-color: #1f1f1f;
+	padding:50px;
+}
+
+h1 {
+    font-size:  48px;
+    font-family:'Blacklisted';
+    color:whitesmoke;
+    display:flex;
+	justify-content: center;
+}
+
+div, p, button{
+	color: #e9e9e9;
+	display:flex;
+	justify-content: center;
+}
+
+u > a {
+    font-size: 22px;
+}
+/*
+.pModal {
+    max-height: inherit;
+    max-width: inherit;
+}
+*/
+input {
+    padding:5px;
+    background-color:transparent;
+    border:none;
+    border-bottom:solid 4px #e94d16;
+    width:250px;
+    font-size:16px;
+    color: white;
+}
+
+#qr_btn {
+    background-color:#e94d16;
+    padding:10px;
+    color:white;
+    cursor:pointer;
+}
+
+#mod {
+    background-color:black;
+    /* color: #E2D4D4; */
+    color: bisque;
+    display:none;
+    position: absolute;
+    width: 25%;
+    transform: translate(-50%, -50%);
+    top: 400px;
+    /* top: 50%; */
+    left: 50%;
+    text-align: center;
+    opacity: 1;
+}
+
+@font-face {
+    font-family: Blacklisted;
+    src: url('Fonts/blacklisted/Blacklisted.ttf');
+    src: local("Blacklisted"), url('Fonts/blacklisted/Blacklisted.ttf');
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+<link type="text/css" rel="stylesheet" href="./CSS/style.css">
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&display=swap" rel="stylesheet"><title>JS - DonLeeLo</title> 
+    </head>
+    <body>
+        <h1>Les projets JS de DONLeeLO</h1>
+        <header>
+            <nav >
+                <ul>
+                    <li>
+                        <a href="http://ec2-35-180-253-230.eu-west-3.compute.amazonaws.com:3000/">
+                            <img class="morpionImg" src="./assets/images/morpion.png" alt="Morpion">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./Jeux/Snake">
+                            <img class="snakeImg" src="./assets/images/snake.png" alt="Snake : Ascii">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./App/Metronome">
+                            <img class="metronomeImg" src="./assets/images/metronome.png" alt="Metronome">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./App/Generateur_QRCode">
+                            <img class="qrCodeImg" src="./assets/images/qr-code.png" alt="QR-Code">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    <div class="content">
+    <script type="text/javascript" src="./JS/vanilla-tilt.min.js"></script>
+    <script type="text/javascript">
+        VanillaTilt.init(document.querySelectorAll("nav ul li"), {
+            scale: 1.2,
+            reverse: true,
+            perspective: 500,
+            speed: 700,
+            max: 25,
+        });
+        </script>
+    </body>
+</html>

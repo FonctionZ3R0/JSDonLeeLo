@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <style>
+      html {
+    height: 100%;
+}
+
+body {
+    background-color: #111111;
+    display: flex;
+    height: 100%;
+    margin: 0;
+}
+
+.lateral, .vertical {
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px white;
+}
+
+.lateral {
+    top: 34.6%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 62%;
+    height: 10px;
+}
+
+#ligne1 {
+    top: 64.4%;
+}
+
+.vertical {
+    left: 39.5%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 10px;
+    height: 90%;
+}
+#ligne3 {
+    left: 60.5%;
+}
+
+.case {
+    background-color: white;
+    width: 15%;
+    height: 10%;
+    padding-top: 13%;
+    border-radius: 100%;
+    margin: 0% 7.5%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 30px 40px white;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+.case:hover {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+#cadre {
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 90%;
+}
+.range {
+    display: flex;
+    width: 100%;
+    height: 33%;
+    justify-content: center;
+}
+
+.rond{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border: 15px solid red;
+    border-radius: 100%;
+}
+
+.croix {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 150%;
+    height: 10%;
+    border-radius: 50px;
+    transform: translate(-50%, -50%) rotateZ(45deg);
+    background: blue;
+}
+
+.croix:first-child {
+    transform: translate(-50%, -50%) rotateZ(-45deg);
+}
+
+h1,h2{
+    font-family: cursive;
+    color: white;
+    text-shadow: 0 0 7px white;
+    height: fit-content;
+    position: absolute;
+    left: 50px;
+}
+
+.game {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+.choose-player {
+    width: 600px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.choose-player button {
+    width: 33%;
+    height: 100%;
+    position: relative;
+    background: none;
+    border: none;
+    transition: transform 0.5s ease-in-out;
+    outline: none;
+}
+
+.choose-player button:hover {
+    transform: scale(1.2);
+    transition: transform 0.5s ease-out;
+}
+
+.buttonbox{
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+    display: flex;
+}
+
+h2 {
+    position: relative;
+    top: -20%;
+    left: unset;
+    text-align: center;
+}
+
+.message {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+}
+
+
+.loader {
+    animation: loading-border 1s infinite ease-in-out;
+
+    border-left: 0px solid white;
+    border-right: 0px solid white;
+    box-shadow: 0 0 20px 5px white;
+    height: 39px;
+    line-height: 29px;
+    border-radius: 50px;
+    padding: 5px 25px;
+}
+
+@keyframes loading-border {
+    0%{
+        border-left: 0px solid white;
+        border-right: 0px solid white;
+        width: 320px;
+    }
+    50%{
+        border-left: 10px solid white;
+        border-right: 10px solid white;
+        width: 400px;
+    }
+    100%{
+        border-left: 0px solid white;
+        border-right: 0px solid white;
+        width: 320px;
+    }
+}
+    </style>
+</head>
+    <body>
+    <H1 style="display: none"> No player set </H1>
+    <div class="game">
+        <div id="cadre">
+            <div class="range">
+                <div data-case="1" class="case"></div><div data-case="2" class="case"></div><div data-case="3" class="case"></div><br>
+            </div>
+            <div class="range">
+                <div data-case="4" class="case"></div><div data-case="5" class="case"></div><div data-case="6" class="case"></div><br>
+            </div>
+            <div class="range">
+                <div data-case="7" class="case"></div><div data-case="8" class="case"></div><div data-case="9" class="case"></div><br>
+            </div>
+            </div>
+        <div id="ligne1" class="lateral"></div>
+        <div id="ligne2"class="lateral"></div>
+        <div id="ligne3" class="vertical"></div>
+        <div id="ligne4" class="vertical"></div>
+    </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+          var socket = io();
+
+          var cases = document.querySelectorAll(".case");
+          var cadre = [0,0,0,
+                      0,0,0,
+                      0,0,0];
+
+          var player = 0;
+          var signe = null;
+          var winner = 0;
+          var full = true;
+
+          var game = false
+
+          var message = document.createElement("h1");
+          message.setAttribute("class","message");
+
+          socket.on('cadre',function(msg){
+            if (player == 1) {
+              cadre[msg] = player == 1 ? 2 : 1;
+              if (!signe) {
+                var rond = document.createElement("div");
+                rond.setAttribute("class","rond");
+                document.querySelectorAll(".case")[msg].appendChild(rond);
+              } else {
+                var croix1 = document.createElement("div");
+                var croix2 = document.createElement("div");
+
+                croix1.setAttribute("class","croix");
+                croix2.setAttribute("class","croix");
+
+                document.querySelectorAll(".case")[msg].appendChild(croix1);
+                document.querySelectorAll(".case")[msg].appendChild(croix2);
+              }
+              document.querySelectorAll(".case")[msg].style.opacity = 1;
+              document.querySelectorAll(".case")[msg].style.background = "none";
+              document.querySelectorAll(".case")[msg].style.boxShadow = "none";
+            }
+            testerVictoire();
+          })
+
+          cases.forEach(element => {
+              element.addEventListener("click", e => {
+                  var position = parseInt(element.getAttribute("data-case"))-1;
+                  if (player == 1) {
+                      if (element.firstChild) {
+                      }
+                      else
+                      {
+                        if (signe) {
+                          var rond = document.createElement("div");
+                          rond.setAttribute("class","rond");
+                          element.appendChild(rond);
+                        }else {
+                          var croix1 = document.createElement("div");
+                          var croix2 = document.createElement("div");
+
+                          croix1.setAttribute("class","croix");
+                          croix2.setAttribute("class","croix");
+
+                          element.appendChild(croix1);
+                          element.appendChild(croix2);
+                        }
+                          element.style.opacity = 1;
+                          element.style.background = "none";
+                          element.style.boxShadow = "none";
+
+                          socket.emit('cadre',position);
+                          cadre[position] = player;
+                      }
+                      
+                  }
+                  document.querySelector("H1").innerHTML = "Player " + player;
+                  testerVictoire();
+              }) 
+          });
+
+          function testerVictoire() {
+            for (let i = 0; i < 3; i++) {
+                      if (cadre[i] == 1 && cadre[i+3] == 1 && cadre[i+6] == 1) {
+                          winner = 1;
+                      }
+                      if (cadre[i] == 2 && cadre[i+3] == 2 && cadre[i+6] == 2) {
+                          winner = 2;
+                      }
+                  }
+                  for (let i = 0; i < 9; i+=3) {
+                      if (cadre[i] == 1 && cadre[i+1] == 1 && cadre[i+2] == 1) {
+                          winner = 1;
+                      }
+                      if (cadre[i] == 2 && cadre[i+1] == 2 && cadre[i+2] == 2) {
+                          winner = 2;
+                      }
+                  }
+                  if (cadre[0] == 1 && cadre[4] == 1 && cadre[8] == 1) {
+                      winner = 1;
+                  }
+                  if (cadre[0] == 2 && cadre[4] == 2 && cadre[8] == 2) {
+                      winner = 2;
+                  }
+                  if (cadre[2] == 1 && cadre[4] == 1 && cadre[6] == 1) {
+                      winner = 1;
+                  }
+                  if (cadre[2] == 2 && cadre[4] == 2 && cadre[6] == 2) {
+                      winner = 2;
+                  }
+
+                  if (winner != 0) {
+                      let message = document.createElement("h1");
+                      message.setAttribute("class","message")
+                      if (winner == 1) {
+                        message.innerHTML = "You are the winner";
+                        setTimeout(() => {
+                            socket.emit('message',"Winner is 1")
+                        }, 5000);
+                      }else{
+                        message.innerHTML = "You loose";
+                      }
+
+                      if (document.querySelector(".game")) {
+                        document.querySelector(".game").style.display = "none";
+                      }
+                      if (document.querySelector("h1")) {
+                        document.querySelector("h1").style.display = "none";
+                      }
+
+                      document.querySelector("body").appendChild(message);
+                  }
+
+                  full = true;
+                  cadre.forEach(element => {
+                      if (element == 0) {
+                          full = false;
+                      }
+                  });
+
+                  if (full){
+                      
+                      message.innerHTML = "This is a draw !";
+
+                      if (document.querySelector(".game")) {
+                        document.querySelector(".game").style.display = "none";
+                      }
+                      if (document.querySelector("h1")) {
+                        document.querySelector("h1").style.display = "none";
+                      }
+
+                      document.querySelector("body").appendChild(message);
+                  }
+          }
+
+          message.innerHTML = "looking for a bro ...";
+          message.setAttribute("class","message loader");
+          document.querySelector("body").appendChild(message);
+          socket.emit('message',"waiting bro");
+          
+          socket.on('message', function(msg){
+            console.log(msg);
+            if (msg == "bro found") {
+              if (player == 0) {
+                player = 2;
+                signe = false;
+              }
+              document.querySelector("h1").innerHTML = "Player " + player;
+              document.querySelector("h1").style.display = "block";
+              document.querySelector(".game").style.display = "block";
+              message.remove();
+              message.setAttribute("class","message");
+            }
+            if (msg == "you are player 1" && player == 0) {
+              player = 1;
+              signe = true;
+            }
+            if (msg == "switch player") {
+              if (player == 1) {
+                player = 2;
+              }else{
+                player = 1;
+              }
+              document.querySelector("h1").innerHTML = "Player " + player;
+            }
+            if (msg == "reset") {
+                cadre = [0,0,0,
+                         0,0,0,
+                         0,0,0];
+                document.querySelectorAll(".case").forEach(element => {
+                    element.style = "";
+                    if (element.firstChild) {
+                        element.firstChild.remove();
+                    }
+                });
+                if (document.querySelector(".game")) {
+                    document.querySelector(".game").style.display = "block";
+                }
+                if (document.querySelector("h1")) {
+                    document.querySelector("h1").style.display = "block";
+                }
+                winner = 0;
+                document.querySelectorAll(".message").forEach(element => {
+                    if (element) {
+                        element.remove();
+                    }
+                });
+            }
+          });
+        </script>
+    </body>
+</html>

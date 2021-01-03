@@ -1,0 +1,322 @@
+:root {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    background-color: #0a0906;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+}
+
+nav {
+    font-family: 'Josefin Sans', sans-serif;
+    width: 80%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
+
+h1 {
+    color: #ffffff;
+    display: flex;
+    margin-top: 7%;
+    justify-content: center;
+    font-size: 62px;
+    font-family: "Black Rocker";
+}
+
+ul {
+    width: 70%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    line-height: 1px;
+    font-size: 40px;
+    transform-style: preserve-3d;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    text-shadow: 0 0 15px black;
+    width: 200px;
+    height: 200px;
+    transform: translateZ(20px) scale(0.8);
+    text-align: center;
+}
+
+header {
+    position: absolute;
+    bottom: 40%;
+    width: 100%;
+}
+
+.center-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h2.banner {
+    color: white;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.titre {
+    color: white;
+    margin: 0 0 20px 20px;
+}
+
+.full {
+    width: 100%;
+    height: 100%;
+}
+
+.absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.content {
+    padding: 20px;
+}
+
+.gameImageBox {
+    transform-style: preserve-3d;
+    width: fit-content;
+    height: fit-content;
+    transform: perspective(500px);
+}
+
+.gameImage {
+    box-shadow: 0 0 5px white;
+    transform: translateZ(40px) scale(0.8);
+    border-radius: 500px;
+    height: 240px;
+    width: 240px;
+    margin-top: 15%;
+    margin-left: 25%;
+}
+
+.card {
+    background-color: white;
+    padding: 5px;
+    margin: 0 20%;
+}
+
+.title {
+    font-size: 16px;
+    color: green;
+    text-shadow: 0 0 5px green;
+}
+
+.map {
+    letter-spacing: 0px;
+    text-shadow: 0 0 5px white;
+}
+
+.map,
+.debug,
+.score,
+.message,
+.appleMessage,
+.board,
+.shopMap {
+    color: white;
+    font-size: 16px;
+}
+
+.shopTitle {
+    margin: 0;
+    transform: translateY(16px);
+}
+
+.board {
+    margin: 0;
+}
+
+.snakeBody,
+.mySnakeBody {
+    color: green;
+    text-shadow: 0 0 5px green;
+}
+
+.mySnakeBody {
+    position: absolute;
+    top: calc(50% - 38px);
+    left: calc(50% - 80px);
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    animation: dodo 4s;
+    animation-iteration-count: infinite;
+}
+
+.score {
+    margin: 0;
+    height: 16px;
+}
+
+.appleMessage {
+    margin: 0;
+    height: 16px;
+}
+
+.message {
+    margin: 0;
+    height: 38px;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.gameBox {
+    position: relative;
+}
+
+.green {
+    color: green;
+    text-shadow: 0 0 5px green;
+}
+
+.snake {
+    position: absolute;
+    top: 20px;
+    left: 18px;
+    font-size: 16px;
+    color: green;
+    text-shadow: 0 0 5px green;
+}
+
+.snakeHead {
+    color: lime;
+    text-shadow: 0 0 10px lime;
+}
+
+.snakeTail {
+    position: relative;
+    top: -1px;
+    color: lime;
+    text-shadow: 0 0 5px lime;
+}
+
+.apple1 {
+    color: red;
+    text-shadow: 0 0 5px red;
+}
+
+.apple2 {
+    color: #ff593c;
+    text-shadow: 0 0 5px #ff593c;
+}
+
+.apple3 {
+    color: #ff9100;
+    text-shadow: 0 0 5px #ff9100;
+}
+
+.apple4 {
+    color: #ffd900;
+    text-shadow: 0 0 5px #ffd900;
+}
+
+.apple5 {
+    color: #8b7200;
+    text-shadow: 0 0 5px #8b7200;
+}
+
+.apple6 {
+    color: #8b5b00;
+    text-shadow: 0 0 5px #8b5b00;
+}
+
+.selector {
+    color: blue !important;
+    text-shadow: 0 0 5px blue !important;
+}
+
+.scoreBox {
+    display: grid;
+}
+
+.scoreMessage {
+    animation: fade 4s;
+    opacity: 0;
+}
+
+.grayText {
+    background-color: dark;
+    color: gray !important;
+    text-shadow: 0 0 5px grey !important;
+}
+
+.center {
+    text-align: center;
+}
+
+.snakeImg {
+    width: 100%;
+    height: 100%;
+}
+
+.metronomeImg {
+    width: 100%;
+    height: 100%;
+}
+
+.qrCodeImg {
+    width: 100%;
+    height: 100%;
+}
+
+.morpionImg {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes fade {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes dodo {
+    0% {
+        transform: scale(1) translate(-50%, -50%);
+    }
+    45% {
+        transform: scale(1.1) translate(-50%, -50%);
+    }
+    47% {
+        transform: scale(1.1) translate(-50%, -50%);
+    }
+    80% {
+        transform: scale(1) translate(-50%, -50%);
+    }
+    100% {
+        transform: scale(1) translate(-50%, -50%);
+    }
+}
+@font-face {
+    font-family:"Black Rocker";
+    src: local("BlackRocker"), url('../assets/fonts/BlackRocker.ttf');
+}
